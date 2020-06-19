@@ -1,0 +1,41 @@
+name: speedtests
+on: [push]
+jobs:
+  java:
+    strategy:
+      matrix: 
+        version: [8,11,14]
+        jdk: ["hotspot","openj9"]
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Set up JDK
+      uses: actions/setup-java@v1
+      with:
+        java_version: ${{ matrix.version }}
+        architecture: x64
+        openjdk_impl: openj9
+      if: ${{ matrix.jdk }} = "hotspot"
+    - name: Set up JDK
+      uses: cescoffier/setup-jdk@v1.1.2
+      with: 
+        java_version: ${{ matrix.java }}
+      if: ${{ matrix.jdk }} = "openj9"
+      with:
+        java-version: ${{ matrix.version }}
+    - name: compile
+      run: javac TesteMatrixMultiply.java
+    - name: run
+      run: time java TesteMatrixMultiply
+  c:
+    strategy:
+      matrix: 
+        optArg: ["-O0","-01","-O2","-03"]
+    runs-on: ubuntu-latest
+    - uses: actions/checkout@v1
+    - name: setup gcc
+      uses: Trass3r/setup-cpp@master
+    - name: compile
+      run: gcc TesteMatrixMultiply.c ${{ matrix.optArg }} -o TesteMatrixMultiply.run
+    - name: run
+      run: time ./TesteMatrixMultiply.run
