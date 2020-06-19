@@ -12,7 +12,7 @@ jobs:
     - name: Set up JDK
       uses: actions/setup-java@v1
       with:
-        java_version: ${{ matrix.version }}
+        java-version: ${{ matrix.version }}
 #      if: ${{ matrix.jdk }} = "hotspot"
 #    - name: Set up JDK
 #      uses: cescoffier/setup-jdk@v1.1.2
