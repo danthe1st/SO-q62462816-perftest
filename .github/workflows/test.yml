@@ -13,16 +13,15 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java_version: ${{ matrix.version }}
-        architecture: x64
-        openjdk_impl: openj9
+        
       if: ${{ matrix.jdk }} = "hotspot"
     - name: Set up JDK
       uses: cescoffier/setup-jdk@v1.1.2
       with: 
         java_version: ${{ matrix.java }}
+        architecture: x64
+        openjdk_impl: openj9
       if: ${{ matrix.jdk }} = "openj9"
-      with:
-        java-version: ${{ matrix.version }}
     - name: compile
       run: javac TesteMatrixMultiply.java
     - name: run
