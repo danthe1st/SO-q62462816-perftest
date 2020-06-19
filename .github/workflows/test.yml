@@ -32,6 +32,7 @@ jobs:
       matrix: 
         optArg: ["-O0","-01","-O2","-03"]
     runs-on: ubuntu-latest
+    steps:
     - uses: actions/checkout@v1
     - name: setup gcc
       uses: Trass3r/setup-cpp@master
